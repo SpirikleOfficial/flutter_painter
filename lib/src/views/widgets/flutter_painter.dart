@@ -1,33 +1,32 @@
 import 'dart:async';
 import 'dart:math';
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import '../../controllers/events/selected_object_drawable_removed_event.dart';
-import '../../controllers/helpers/renderer_check/renderer_check.dart';
-import '../../controllers/drawables/drawable.dart';
-import '../../controllers/notifications/notifications.dart';
-import '../../controllers/drawables/sized1ddrawable.dart';
-import '../../controllers/drawables/shape/shape_drawable.dart';
-import '../../controllers/drawables/sized2ddrawable.dart';
-import '../../controllers/drawables/object_drawable.dart';
-import '../../controllers/events/events.dart';
-import '../../controllers/drawables/text_drawable.dart';
-import '../../controllers/drawables/path/path_drawables.dart';
-import '../../controllers/settings/settings.dart';
-import '../painters/painter.dart';
-import '../../controllers/painter_controller.dart';
-import '../../controllers/helpers/border_box_shadow.dart';
-import '../../extensions/painter_controller_helper_extension.dart';
-import 'painter_controller_widget.dart';
 import 'dart:math' as math;
 
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+
+import '../../controllers/drawables/drawable.dart';
+import '../../controllers/drawables/object_drawable.dart';
+import '../../controllers/drawables/path/path_drawables.dart';
+import '../../controllers/drawables/shape/shape_drawable.dart';
+import '../../controllers/drawables/sized1ddrawable.dart';
+import '../../controllers/drawables/sized2ddrawable.dart';
+import '../../controllers/drawables/text_drawable.dart';
+import '../../controllers/events/events.dart';
+import '../../controllers/events/selected_object_drawable_removed_event.dart';
+import '../../controllers/helpers/border_box_shadow.dart';
+import '../../controllers/helpers/renderer_check/renderer_check.dart';
+import '../../controllers/notifications/notifications.dart';
+import '../../controllers/painter_controller.dart';
+import '../../controllers/settings/settings.dart';
+import '../../extensions/painter_controller_helper_extension.dart';
+import '../painters/painter.dart';
+import 'painter_controller_widget.dart';
+
 part 'free_style_widget.dart';
-part 'text_widget.dart';
 part 'object_widget.dart';
 part 'shape_widget.dart';
+part 'text_widget.dart';
 
 typedef DrawableCreatedCallback = Function(Drawable drawable);
 
@@ -153,36 +152,24 @@ class _FlutterPainterWidget extends StatelessWidget {
               final controller = PainterController.of(context);
               return NotificationListener<FlutterPainterNotification>(
                 onNotification: onNotification,
-                child: InteractiveViewer(
-                  transformationController: controller.transformationController,
-                  minScale: controller.settings.scale.enabled
-                      ? controller.settings.scale.minScale
-                      : 1,
-                  maxScale: controller.settings.scale.enabled
-                      ? controller.settings.scale.maxScale
-                      : 1,
-                  panEnabled: controller.settings.scale.enabled &&
-                      (controller.freeStyleSettings.mode == FreeStyleMode.none),
-                  scaleEnabled: controller.settings.scale.enabled,
-                  child: _FreeStyleWidget(
-                      // controller: controller,
-                      child: _TextWidget(
+                child: _FreeStyleWidget(
                     // controller: controller,
-                    child: _ShapeWidget(
+                    child: _TextWidget(
+                  // controller: controller,
+                  child: _ShapeWidget(
+                    // controller: controller,
+                    child: _ObjectWidget(
                       // controller: controller,
-                      child: _ObjectWidget(
-                        // controller: controller,
-                        interactionEnabled: true,
-                        child: CustomPaint(
-                          painter: Painter(
-                            drawables: controller.value.drawables,
-                            background: controller.value.background,
-                          ),
+                      interactionEnabled: true,
+                      child: CustomPaint(
+                        painter: Painter(
+                          drawables: controller.value.drawables,
+                          background: controller.value.background,
                         ),
                       ),
                     ),
-                  )),
-                ),
+                  ),
+                )),
               );
             }));
   }
